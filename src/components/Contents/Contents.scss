@@ -1,0 +1,44 @@
+.balances-list.active {
+  background-color: #c8e7ff;
+}
+
+.balances-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 30vh;
+}
+
+.img-fc {
+  width: 15px;
+  height: 15px;
+}
+
+.img-thumb {
+  width: 25px;
+  height: 25px;
+  filter: invert(26%) sepia(52%) saturate(4804%) hue-rotate(317deg) brightness(99%) contrast(96%);
+}
+
+.thumbs {
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: column;
+  align-self: center;
+  padding-left: 50px;
+  cursor: pointer;
+}
+
+.status {
+  align-self: center;
+  padding-left: 20px;
+}
+
+.contract-data {
+  width: 600px;
+}
