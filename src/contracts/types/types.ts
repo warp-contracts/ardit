@@ -25,7 +25,7 @@ export interface AtomicAction {
 }
 
 export interface AtomicInput {
-  function: PstFunction;
+  function: AtomicFunction;
   from: string;
   to: string;
   owner: string;
@@ -54,7 +54,7 @@ export interface TotalSupplyResult {
   value: number;
 }
 
-export type PstFunction =
+export type AtomicFunction =
   | 'transfer'
   | 'transferFrom'
   | 'balanceOf'
