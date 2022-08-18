@@ -60,9 +60,8 @@ let warp: Warp;
     wallet,
     initState: JSON.stringify(initialState),
     src: contractSrc,
+    data: { 'Content-Type': 'text/html', body: '<h1>HELLO WORLD</h1>' },
   });
 
   console.log(contractTxId);
-
-  await arweave.api.get('mine');
 })();

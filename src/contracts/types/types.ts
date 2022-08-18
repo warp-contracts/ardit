@@ -20,11 +20,11 @@ export interface AtomicState {
 }
 
 export interface AtomicAction {
-  input: PstInput;
+  input: AtomicInput;
   caller: string;
 }
 
-export interface PstInput {
+export interface AtomicInput {
   function: PstFunction;
   from: string;
   to: string;
@@ -35,7 +35,7 @@ export interface PstInput {
   value: string;
 }
 
-export type PstResult = AllowanceResult | BalanceResult | TotalSupplyResult;
+export type AtomicResult = AllowanceResult | BalanceResult | TotalSupplyResult;
 
 export interface AllowanceResult {
   ticker: string;
@@ -66,4 +66,4 @@ export type PstFunction =
   | 'upVoteMessage'
   | 'downVoteMessage';
 
-export type ContractResult = { state: AtomicState } | { result: PstResult };
+export type ContractResult = { state: AtomicState } | { result: AtomicResult };

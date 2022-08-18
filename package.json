@@ -5,10 +5,9 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "build:contracts": "yarn run clean && yarn run build-ts && npm run cp",
+    "build:contracts": "yarn run clean && yarn run build-ts",
     "build-ts": "node build.js",
     "clean": "rimraf ./dist",
-    "cp": "copyfiles -u 1 ./src/**/*.json dist",
     "lint": "vue-cli-service lint",
     "test": "jest tests"
   },
