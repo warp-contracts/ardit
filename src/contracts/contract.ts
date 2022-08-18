@@ -2,12 +2,12 @@ import { balanceOf, totalSupply } from './actions/balance';
 import { allowance, approve } from './actions/allowances';
 import { evolve } from './actions/evolve';
 import { transfer, transferFrom } from './actions/transfers';
-import { ContractResult, PstAction, PstResult, PstState } from './types/types';
+import { ContractResult, AtomicAction, PstResult, AtomicState } from './types/types';
 import { downVoteMessage, upVoteMessage } from './actions/voting';
 
 declare const ContractError;
 
-export async function handle(state: PstState, action: PstAction): Promise<ContractResult> {
+export async function handle(state: AtomicState, action: AtomicAction): Promise<ContractResult> {
   const input = action.input;
 
   switch (input.function) {

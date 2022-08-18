@@ -1,19 +1,23 @@
 import { LoggerFactory } from 'warp-contracts';
-import { ContractResult, PstAction, PstState } from '../types/types';
+import { ContractResult, AtomicAction, AtomicState } from '../types/types';
 import { _getAllowance, _setAllowance } from './allowances';
 
 declare const ContractError;
 
+// allows to transfer tokens between wallets
+
 export const transfer = async (
-  state: PstState,
-  { caller, input: { to, amount } }: PstAction
+  state: AtomicState,
+  { caller, input: { to, amount } }: AtomicAction
 ): Promise<ContractResult> => {
   return _transfer(state, caller, to, amount);
 };
 
+// allows transferring tokens using the allowance mechanism
+
 export const transferFrom = async (
-  state: PstState,
-  { caller, input: { from, to, amount } }: PstAction
+  state: AtomicState,
+  { caller, input: { from, to, amount } }: AtomicAction
 ): Promise<ContractResult> => {
   const allowance = _getAllowance(state.allowances, from, caller);
 
@@ -26,7 +30,7 @@ export const transferFrom = async (
   return _transfer(state, from, to, amount);
 };
 
-const _transfer = async (state: PstState, from: string, to: string, amount: number): Promise<ContractResult> => {
+const _transfer = async (state: AtomicState, from: string, to: string, amount: number): Promise<ContractResult> => {
   const balances = state.balances;
   if (!balances[from]) {
     throw new ContractError(`Caller balance is not defined!`);
@@ -55,7 +59,7 @@ const _transfer = async (state: PstState, from: string, to: string, amount: numb
   return { state };
 };
 
-const _claimOwnership = (state: PstState, from: string, to: string) => {
+const _claimOwnership = (state: AtomicState, from: string, to: string) => {
   const fromBalance = state.balances[from];
   const toBalance = state.balances[to];
 

@@ -10,9 +10,7 @@
     "clean": "rimraf ./dist",
     "cp": "copyfiles -u 1 ./src/**/*.json dist",
     "lint": "vue-cli-service lint",
-    "test": "yarn test:node && yarn test:browser",
-    "test:node": "jest tests",
-    "test:browser": "jest tests --config ./jest.browser.config.js"
+    "test": "jest tests"
   },
   "dependencies": {
     "arlocal": "^1.1.55",

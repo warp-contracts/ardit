@@ -1,8 +1,11 @@
-import { ContractResult, PstAction, PstState } from '../types/types';
+import { ContractResult, AtomicAction, AtomicState } from '../types/types';
 
 declare const ContractError;
 
-export const evolve = async (state: PstState, { caller, input: { value } }: PstAction): Promise<ContractResult> => {
+export const evolve = async (
+  state: AtomicState,
+  { caller, input: { value } }: AtomicAction
+): Promise<ContractResult> => {
   const evolve = value;
   const owner = state.owner;
 

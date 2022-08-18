@@ -1,4 +1,4 @@
-# warp-academy-pst
+# ardit
 
 ## Project setup
 

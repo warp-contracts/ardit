@@ -1,4 +1,4 @@
-export interface PstState {
+export interface AtomicState {
   totalSupply: number;
   symbol: string;
   name: string;
@@ -19,7 +19,7 @@ export interface PstState {
   };
 }
 
-export interface PstAction {
+export interface AtomicAction {
   input: PstInput;
   caller: string;
 }
@@ -66,4 +66,4 @@ export type PstFunction =
   | 'upVoteMessage'
   | 'downVoteMessage';
 
-export type ContractResult = { state: PstState } | { result: PstResult };
+export type ContractResult = { state: AtomicState } | { result: PstResult };

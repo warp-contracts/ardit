@@ -1,19 +1,23 @@
-import { ContractResult, PstAction, PstState } from '../types/types';
+import { ContractResult, AtomicAction, AtomicState } from '../types/types';
 
 declare const ContractError;
 
+// return the amount which spender is allowed to withdraw from owner
+
 export const allowance = async (
-  state: PstState,
-  { caller, input: { owner, spender } }: PstAction
+  state: AtomicState,
+  { input: { owner, spender } }: AtomicAction
 ): Promise<ContractResult> => {
   const ticker = state.symbol;
 
   return { result: { ticker, allowance: _getAllowance(state.allowances, owner, spender), owner, spender } };
 };
 
+// approve tokens to be spent by another account between wallets
+
 export const approve = async (
-  state: PstState,
-  { caller, input: { amount, spender } }: PstAction
+  state: AtomicState,
+  { caller, input: { amount, spender } }: AtomicAction
 ): Promise<ContractResult> => {
   _setAllowance(state.allowances || {}, caller, spender, amount);
 

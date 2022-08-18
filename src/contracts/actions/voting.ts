@@ -1,10 +1,9 @@
-import { ContractResult, PstAction, PstState } from '../types/types';
+import { ContractResult, AtomicAction, AtomicState } from '../types/types';
 
 declare const ContractError;
 
-export const upVoteMessage = async (state: PstState, { caller }: PstAction): Promise<ContractResult> => {
+export const upVoteMessage = async (state: AtomicState, { caller }: AtomicAction): Promise<ContractResult> => {
   const votes = state.votes;
-
   if (votes.addresses.includes(caller)) {
     throw new ContractError('Caller has already voted.');
   } else {
@@ -14,9 +13,8 @@ export const upVoteMessage = async (state: PstState, { caller }: PstAction): Pro
   return { state };
 };
 
-export const downVoteMessage = async (state: PstState, { caller }: PstAction): Promise<ContractResult> => {
+export const downVoteMessage = async (state: AtomicState, { caller }: AtomicAction): Promise<ContractResult> => {
   const votes = state.votes;
-
   if (votes.addresses.includes(caller)) {
     throw new ContractError('Caller has already voted.');
   } else {

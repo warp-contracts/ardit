@@ -1,6 +1,6 @@
 import Arweave from 'arweave';
 import { JWKInterface } from 'arweave/node/lib/wallet';
-import { PstState } from '../contracts/types/types';
+import { AtomicState } from '../contracts/types/types';
 import { LoggerFactory, PstContract, Warp, WarpFactory } from 'warp-contracts';
 import fs from 'fs';
 import path from 'path';
