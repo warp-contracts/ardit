@@ -273,33 +273,20 @@ describe('Testing the Atomic NFT Token', () => {
     expect((await atomicNFT.currentState()).owner).toEqual(user3);
   });
 
-  it('should properly upVote message', async () => {
+  it('upVoteMessage function should work properly', async () => {
     await atomicNFT.writeInteraction({ function: 'upVoteMessage' });
     expect((await atomicNFT.currentState()).votes.status).toEqual(1);
   });
 
   it('should not be possible to vote again', async () => {
-    await expect(
-      atomicNFT.writeInteraction(
-        {
-          function: 'upVoteMessage',
-        },
-        { strict: true }
-      )
-    ).rejects.toThrow('Cannot create interaction: Caller has already voted.');
+    await expect(atomicNFT.writeInteraction({ function: 'upVoteMessage' }, { strict: true })).rejects.toThrow(
+      'Cannot create interaction: Caller has already voted.'
+    );
   });
 
-  it('should be possible to downVote message', async () => {
-    let atomicNFTFromUser2 = await connectAtomicNFT(warp, contractTxId, user2Wallet);
-
-    await atomicNFTFromUser2.writeInteraction({ function: 'downVoteMessage' }, { strict: true });
-    expect((await atomicNFTFromUser2.currentState()).votes.status).toEqual(0);
-  });
-
-  it('should be possible to downVote message', async () => {
-    let atomicNFTFromUser3 = await connectAtomicNFT(warp, contractTxId, user3Wallet);
-
-    await atomicNFTFromUser3.writeInteraction({ function: 'downVoteMessage' }, { strict: true });
-    expect((await atomicNFTFromUser3.currentState()).votes.status).toEqual(-1);
+  it('should be possible to downVoteMessage', async () => {
+    const atomicNFTFromUser2 = await connectAtomicNFT(warp, contractTxId, user2Wallet);
+    await atomicNFTFromUser2.writeInteraction({ function: 'downVoteMessage' });
+    expect((await atomicNFT.currentState()).votes.status).toEqual(0);
   });
 });

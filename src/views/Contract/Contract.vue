@@ -45,7 +45,10 @@ export default Vue.extend({
               return await axios.get(`https://gateway.redstone.finance/gateway/contract-data/${r.contract_tx_id}`);
             })
           );
-          contents.forEach((c, index) => (c.contract_data = response[index].value.data));
+          contents.forEach((c, index) => {
+            c.contract_data = response[index].value.data;
+            c.state = JSON.parse(c.state);
+          });
           this.$store.commit('setStates', contents);
         })
         .catch((err) => {

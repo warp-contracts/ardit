@@ -29,7 +29,7 @@ export async function handle(state: AtomicState, action: AtomicAction): Promise<
       return await upVoteMessage(state, action);
     case 'downVoteMessage':
       return await downVoteMessage(state, action);
-    default:
+      default:
       throw new ContractError(`No function supplied or function not recognised: "${input.function}"`);
   }
 }

@@ -48,7 +48,10 @@ export default new Vuex.Store({
               return await axios.get(`https://gateway.redstone.finance/gateway/contract-data/${r.contract_tx_id}`);
             })
           );
-          contents.forEach((c, index) => (c.contract_data = response[index].value.data));
+          contents.forEach((c, index) => {
+            c.contract_data = response[index].value.data;
+            c.state = JSON.parse(c.state);
+          });
           commit('setStates', contents);
         })
         .catch((err) => {

@@ -16,10 +16,10 @@ import jwk from '../../.secrets/jwk.json';
   const walletAddress = await arweave.wallets.jwkToAddress(jwk);
 
   const initialState = {
-    description: 'NFT-based Arweave social app',
+    description: 'Webinar token',
     settings: null,
-    symbol: 'ARDIT',
-    name: 'ArDit',
+    symbol: 'Webinar',
+    name: 'Webinar',
     decimals: '',
     totalSupply: 100,
     balances: {

@@ -18,13 +18,13 @@
             <div class="address">
               <span class="d-none d-lg-block"
                 >Creator:
-                <a :href="`https://viewblock.io/arweave/address/${JSON.parse(state.state).owner}`" target="_blank">{{
-                  JSON.parse(state.state).owner
+                <a :href="`https://viewblock.io/arweave/address/${state.state.owner}`" target="_blank">{{
+                  state.state.owner
                 }}</a></span
               ><span class="d-block d-lg-none"
                 >Creator:
-                <a :href="`https://viewblock.io/arweave/address/${JSON.parse(state.state).owner}`" target="_blank">{{
-                  JSON.parse(state.state).owner | tx
+                <a :href="`https://viewblock.io/arweave/address/${state.state.owner}`" target="_blank">{{
+                  state.state.owner | tx
                 }}</a></span
               >
             </div>
@@ -34,19 +34,19 @@
               <img
                 class="img-thumb mb-2"
                 src="../../assets/thumbs-up.svg"
-                @click="upVote(state.contract_tx_id, JSON.parse(state.state).votes)"
+                @click="upVote(state.contract_tx_id, state.state.votes)"
               />
             </div>
             <div class="">
               <img
                 class="img-thumb mt-2"
                 src="../../assets/thumbs-down.svg"
-                @click="downVote(state.contract_tx_id, JSON.parse(state.state).votes)"
+                @click="downVote(state.contract_tx_id, state.state.votes)"
               />
             </div>
           </div>
           <div class="status">
-            {{ JSON.parse(state.state).votes.status }}
+            {{ state.state.votes.status }}
           </div>
         </div>
         <div></div>
@@ -104,7 +104,9 @@ export default Vue.extend({
           `<div>Interaction id: <a href="https://sonar.warp.cc/#/app/interaction/${tx.originalTxId}" target="_blank">${tx.originalTxId}</a></div>`
         );
       }
-      this.$parent.updateContents();
+      const newStatus = cachedValue.state.votes.status;
+      const contentElement = this.contents.find((c) => c.contract_tx_id == contractId);
+      contentElement.state.votes.status = newStatus;
     },
     async upVote(contractId: string, votes: any) {
       await this.vote(contractId, votes, 'upVoteMessage');
