@@ -105,8 +105,10 @@ export default Vue.extend({
         );
       }
       const newStatus = cachedValue.state.votes.status;
+      const newAddresses = cachedValue.state.votes.addresses;
       const contentElement = this.contents.find((c) => c.contract_tx_id == contractId);
       contentElement.state.votes.status = newStatus;
+      contentElement.state.votes.addresses = newAddresses;
     },
     async upVote(contractId: string, votes: any) {
       await this.vote(contractId, votes, 'upVoteMessage');
