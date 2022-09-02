@@ -44,14 +44,9 @@ describe('Testing the Atomic NFT Token', () => {
 
     warp = WarpFactory.forLocal(1820);
 
-    ownerWallet = await warp.testing.generateWallet();
-    owner = await warp.arweave.wallets.jwkToAddress(ownerWallet);
-
-    user2Wallet = await warp.testing.generateWallet();
-    user2 = await warp.arweave.wallets.jwkToAddress(user2Wallet);
-
-    user3Wallet = await warp.testing.generateWallet();
-    user3 = await warp.arweave.wallets.jwkToAddress(user3Wallet);
+    ({ jwk: ownerWallet, address: owner } = await warp.testing.generateWallet());
+    ({ jwk: user2Wallet, address: user2 } = await warp.testing.generateWallet());
+    ({ jwk: user3Wallet, address: user3 } = await warp.testing.generateWallet());
 
     initialState = {
       description: 'This is the test of Atomic NFT token',
@@ -70,7 +65,7 @@ describe('Testing the Atomic NFT Token', () => {
       votes: { status: 0, addresses: [] },
     };
 
-    let deployedContract = await deployAtomicNFT(warp, initialState, ownerWallet);
+    const deployedContract = await deployAtomicNFT(warp, initialState, ownerWallet);
     contractTxId = deployedContract[1].contractTxId;
     console.log('Deployed contract: ', deployedContract);
     atomicNFT = await connectAtomicNFT(warp, contractTxId, ownerWallet);
@@ -142,7 +137,7 @@ describe('Testing the Atomic NFT Token', () => {
   });
 
   it('should not transfer from more tokens than allowed', async () => {
-    let atomicNFTFromUser2 = await connectAtomicNFT(warp, contractTxId, user2Wallet);
+    const atomicNFTFromUser2 = await connectAtomicNFT(warp, contractTxId, user2Wallet);
 
     await expect(
       atomicNFTFromUser2.transferFrom({
@@ -159,7 +154,7 @@ describe('Testing the Atomic NFT Token', () => {
     expect((await atomicNFT.balanceOf(user3)).balance).toEqual(0);
     expect((await atomicNFT.allowance(owner, user2)).allowance).toEqual(20);
 
-    let atomicNFTFromUser2 = await connectAtomicNFT(warp, contractTxId, user2Wallet);
+    const atomicNFTFromUser2 = await connectAtomicNFT(warp, contractTxId, user2Wallet);
 
     await atomicNFTFromUser2.transferFrom({
       from: owner,
@@ -179,7 +174,7 @@ describe('Testing the Atomic NFT Token', () => {
     expect((await atomicNFT.balanceOf(user3)).balance).toEqual(20);
     expect(Object.keys((await atomicNFT.currentState()).balances)).toHaveLength(3);
 
-    let atomicNFTFromUser2 = await connectAtomicNFT(warp, contractTxId, user2Wallet);
+    const atomicNFTFromUser2 = await connectAtomicNFT(warp, contractTxId, user2Wallet);
     await atomicNFTFromUser2.transfer({ to: user3, amount: 10 });
 
     expect((await atomicNFT.balanceOf(owner)).balance).toEqual(70);
@@ -195,7 +190,7 @@ describe('Testing the Atomic NFT Token', () => {
 
     await atomicNFT.approve({ spender: user2, amount: 70 });
 
-    let atomicNFTFromUser2 = await connectAtomicNFT(warp, contractTxId, user2Wallet);
+    const atomicNFTFromUser2 = await connectAtomicNFT(warp, contractTxId, user2Wallet);
     await atomicNFTFromUser2.transferFrom({ from: owner, to: user3, amount: 70 });
 
     expect((await atomicNFT.balanceOf(owner)).balance).toEqual(0);
@@ -234,7 +229,7 @@ describe('Testing the Atomic NFT Token', () => {
   });
 
   it('should reset user balances & allowances', async () => {
-    let atomicNFTFromUser3 = await connectAtomicNFT(warp, contractTxId, user3Wallet);
+    const atomicNFTFromUser3 = await connectAtomicNFT(warp, contractTxId, user3Wallet);
     await atomicNFTFromUser3.transfer({ to: owner, amount: 70 });
 
     await atomicNFT.approve({ spender: user2, amount: 20 });
@@ -248,7 +243,7 @@ describe('Testing the Atomic NFT Token', () => {
   });
 
   it('should clean spender allowance after transfer', async () => {
-    let atomicNFTFromUser3 = await connectAtomicNFT(warp, contractTxId, user3Wallet);
+    const atomicNFTFromUser3 = await connectAtomicNFT(warp, contractTxId, user3Wallet);
     await atomicNFTFromUser3.transferFrom({ from: owner, to: user3, amount: 30 });
 
     expect((await atomicNFT.allowance(owner, user2)).allowance).toEqual(20);
@@ -259,7 +254,7 @@ describe('Testing the Atomic NFT Token', () => {
   });
 
   it('should clean owner allowance after transfer if there are no spenders', async () => {
-    let atomicNFTFromUser2 = await connectAtomicNFT(warp, contractTxId, user2Wallet);
+    const atomicNFTFromUser2 = await connectAtomicNFT(warp, contractTxId, user2Wallet);
     await atomicNFTFromUser2.transferFrom({ from: owner, to: user3, amount: 20 });
 
     expect((await atomicNFT.allowance(owner, user2)).allowance).toEqual(0);

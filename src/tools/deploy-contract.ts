@@ -1,18 +1,15 @@
 import fs from 'fs';
 import path from 'path';
-import Arweave from 'arweave';
-import { ArWallet, WarpFactory } from 'warp-contracts';
-import jwk from '../../.secrets/jwk.json';
+import { WarpFactory } from 'warp-contracts';
 
 (async () => {
+  // Arweave and Warp initialization
+  const warp = WarpFactory.forMainnet();
+  const arweave = warp.arweave;
+
   // Loading contract source and initial state from files
   const contractSrc = fs.readFileSync(path.join(__dirname, '../../dist/contract.js'), 'utf8');
-  // const initialState = fs.readFileSync(path.join(__dirname, '../contracts/pst/initial-state.json'), 'utf8');
-  const arweave = Arweave.init({
-    host: 'arweave.net',
-    port: 443,
-    protocol: 'https',
-  });
+  const jwk = await arweave.wallets.generate();
   const walletAddress = await arweave.wallets.jwkToAddress(jwk);
 
   const initialState = {
@@ -31,8 +28,6 @@ import jwk from '../../.secrets/jwk.json';
     evolve: '',
     votes: { status: 0, addresses: [] },
   };
-  // Arweave and Warp initialization
-  const warp = WarpFactory.forMainnet();
 
   // Deploying contract
   console.log('Deployment started');
